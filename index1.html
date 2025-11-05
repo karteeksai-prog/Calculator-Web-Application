@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator Web Application | SkillCraft Task 02</title>
+  <style>
+    /* ===== Global Styling ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== Calculator Box ===== */
+    .calculator {
+      background: #fff;
+      width: 320px;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .display {
+      width: 100%;
+      height: 60px;
+      background: #f5f5f5;
+      border: none;
+      text-align: right;
+      padding: 10px;
+      font-size: 1.8rem;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      background: #e0e0e0;
+      transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #007bff;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    button.operator {
+      background: #007bff;
+      color: white;
+    }
+
+    button.equal {
+      background: #28a745;
+      color: white;
+      grid-column: span 2;
+    }
+
+    button.clear {
+      background: #dc3545;
+      color: white;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #fff;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 400px) {
+      .calculator {
+        width: 90%;
+      }
+      .display {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculator Web Application</h1>
+
+  <div class="calculator">
+    <input type="text" id="display" class="display" readonly />
+
+    <div class="buttons">
+      <button class="clear">C</button>
+      <button class="operator">/</button>
+      <button class="operator">*</button>
+      <button class="operator">-</button>
+
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">+</button>
+
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>.</button>
+
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button class="equal">=</button>
+
+      <button>0</button>
+    </div>
+  </div>
+
+  <footer>SkillCraft Technology — Task 02 (Alternative)</footer>
+
+  <script>
+    const display = document.getElementById("display");
+    const buttons = document.querySelectorAll("button");
+
+    let currentInput = "";
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.textContent;
+
+        if (value === "C") {
+          currentInput = "";
+          display.value = "";
+        } else if (value === "=") {
+          try {
+            currentInput = eval(currentInput).toString();
+            display.value = currentInput;
+          } catch {
+            display.value = "Error";
+            currentInput = "";
+          }
+        } else {
+          currentInput += value;
+          display.value = currentInput;
+        }
+      });
+    });
+
+    // Keyboard input handling
+    window.addEventListener("keydown", (e) => {
+      if (
+        (e.key >= "0" && e.key <= "9") ||
+        ["+", "-", "*", "/", "."].includes(e.key)
+      ) {
+        currentInput += e.key;
+        display.value = currentInput;
+      } else if (e.key === "Enter") {
+        try {
+          currentInput = eval(currentInput).toString();
+          display.value = currentInput;
+        } catch {
+          display.value = "Error";
+          currentInput = "";
+        }
+      } else if (e.key === "Backspace") {
+        currentInput = currentInput.slice(0, -1);
+        display.value = currentInput;
+      } else if (e.key.toLowerCase() === "c") {
+        currentInput = "";
+        display.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
